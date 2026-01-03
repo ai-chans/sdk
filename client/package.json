@@ -1,0 +1,39 @@
+{
+  "name": "@chans/sdk-js",
+  "version": "0.1.0",
+  "description": "JavaScript client for chans.ai voice AI",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./testing": {
+      "types": "./dist/testing.d.ts",
+      "import": "./dist/testing.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc && pnpm build:browser",
+    "build:browser": "esbuild src/index.ts --bundle --format=esm --outfile=dist/chans-client.browser.js",
+    "dev": "tsc --watch",
+    "lint": "echo 'lint not configured yet'"
+  },
+  "dependencies": {
+    "livekit-client": "^2.16.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.2",
+    "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
