@@ -1,6 +1,11 @@
 {
-  "name": "chans-sdk-js",
-  "version": "0.1.1",
+  "name": "@chozzz/chans-sdk-js",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chozzz/chans-sdk.git",
+    "directory": "client"
+  },
   "description": "JavaScript client for chans.ai voice AI",
   "type": "module",
   "main": "./dist/index.js",

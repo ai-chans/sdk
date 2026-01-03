@@ -4,21 +4,37 @@ Official JavaScript/TypeScript SDK for [chans.ai](https://chans.ai) - add real-t
 
 ## Packages
 
-| Package | Description | Version |
-|---------|-------------|---------|
-| [chans-sdk-js](./client) | Core JavaScript client | [![npm](https://img.shields.io/npm/v/chans-sdk-js)](https://www.npmjs.com/package/chans-sdk-js) |
-| [chans-sdk-react](./react) | React components & hooks | [![npm](https://img.shields.io/npm/v/chans-sdk-react)](https://www.npmjs.com/package/chans-sdk-react) |
+| Package | Description |
+|---------|-------------|
+| [@chozzz/chans-sdk-js](./client) | Core JavaScript client |
+| [@chozzz/chans-sdk-react](./react) | React components & hooks |
+
+## Installation
+
+Since these packages are hosted on GitHub Packages, you need to configure npm to use the GitHub registry for the `@chozzz` scope.
+
+Create or add to your `.npmrc` file:
+
+```
+@chozzz:registry=https://npm.pkg.github.com
+```
+
+Then install:
+
+```bash
+# Core client
+npm install @chozzz/chans-sdk-js
+
+# React (includes core client)
+npm install @chozzz/chans-sdk-react
+```
 
 ## Quick Start
 
 ### JavaScript/TypeScript
 
-```bash
-npm install chans-sdk-js
-```
-
 ```typescript
-import { ChansClient } from "chans-sdk-js"
+import { ChansClient } from "@chozzz/chans-sdk-js"
 
 const client = new ChansClient({
   agentToken: "agt_your_token_here"  // From chans.ai dashboard
@@ -37,12 +53,8 @@ await client.disconnect()
 
 ### React
 
-```bash
-npm install chans-sdk-react
-```
-
 ```tsx
-import { ChansVoice } from "chans-sdk-react"
+import { ChansVoice } from "@chozzz/chans-sdk-react"
 
 function App() {
   return (
@@ -114,6 +126,3 @@ Full documentation available at [docs.chans.ai](https://docs.chans.ai)
 ## License
 
 MIT - see [LICENSE](./LICENSE)
-
-trigger publish
-trigger
