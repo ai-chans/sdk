@@ -1,5 +1,5 @@
 {
-  "name": "@chans/sdk-js",
+  "name": "chans-sdk-js",
   "version": "0.1.0",
   "description": "JavaScript client for chans.ai voice AI",
   "type": "module",

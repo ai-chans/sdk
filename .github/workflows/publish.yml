@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Release & Publish
 
 on:
   push:
@@ -6,19 +6,21 @@ on:
       - main
 
 concurrency:
-  group: publish-${{ github.ref }}
+  group: release-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       id-token: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -38,16 +40,43 @@ jobs:
       - name: Build packages
         run: pnpm build
 
-      - name: Publish @chans/sdk-js
-        working-directory: client
+      - name: Get version from client package
+        id: version
+        run: echo "version=$(node -p "require('./client/package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Check if tag exists
+        id: tag_check
         run: |
-          npm publish --provenance --access public || echo "Version already exists, skipping..."
+          if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+
+      - name: Publish chans-sdk-js
+        if: steps.tag_check.outputs.exists == 'false'
+        working-directory: client
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish @chans/react
+      - name: Publish chans-sdk-react
+        if: steps.tag_check.outputs.exists == 'false'
         working-directory: react
-        run: |
-          npm publish --provenance --access public || echo "Version already exists, skipping..."
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Skip - Version already released
+        if: steps.tag_check.outputs.exists == 'true'
+        run: echo "Version v${{ steps.version.outputs.version }} already released, skipping..."

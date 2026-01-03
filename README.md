@@ -6,19 +6,19 @@ Official JavaScript/TypeScript SDK for [chans.ai](https://chans.ai) - add real-t
 
 | Package | Description | Version |
 |---------|-------------|---------|
-| [@chans/sdk-js](./client) | Core JavaScript client | [![npm](https://img.shields.io/npm/v/@chans/sdk-js)](https://www.npmjs.com/package/@chans/sdk-js) |
-| [@chans/react](./react) | React components & hooks | [![npm](https://img.shields.io/npm/v/@chans/react)](https://www.npmjs.com/package/@chans/react) |
+| [chans-sdk-js](./client) | Core JavaScript client | [![npm](https://img.shields.io/npm/v/chans-sdk-js)](https://www.npmjs.com/package/chans-sdk-js) |
+| [chans-sdk-react](./react) | React components & hooks | [![npm](https://img.shields.io/npm/v/chans-sdk-react)](https://www.npmjs.com/package/chans-sdk-react) |
 
 ## Quick Start
 
 ### JavaScript/TypeScript
 
 ```bash
-npm install @chans/sdk-js
+npm install chans-sdk-js
 ```
 
 ```typescript
-import { ChansClient } from "@chans/sdk-js"
+import { ChansClient } from "chans-sdk-js"
 
 const client = new ChansClient({
   agentToken: "agt_your_token_here"  // From chans.ai dashboard
@@ -38,11 +38,11 @@ await client.disconnect()
 ### React
 
 ```bash
-npm install @chans/react
+npm install chans-sdk-react
 ```
 
 ```tsx
-import { ChansVoice } from "@chans/react"
+import { ChansVoice } from "chans-sdk-react"
 
 function App() {
   return (

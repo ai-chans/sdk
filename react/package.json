@@ -1,5 +1,5 @@
 {
-  "name": "@chans/react",
+  "name": "chans-sdk-react",
   "version": "0.1.0",
   "description": "React component for chans.ai voice AI",
   "type": "module",
@@ -22,7 +22,7 @@
     "lint": "echo 'lint not configured yet'"
   },
   "dependencies": {
-    "@chans/sdk-js": "workspace:^"
+    "chans-sdk-js": "workspace:^"
   },
   "devDependencies": {
     "@types/react": "^19",
