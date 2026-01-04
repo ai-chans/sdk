@@ -132,6 +132,24 @@ const client = new ChansClient({
 })
 ```
 
+## Development
+
+```bash
+pnpm install
+pnpm build
+pnpm test              # Unit tests (mocked, no external deps)
+pnpm test:coverage     # With coverage report
+```
+
+### Integration Tests
+
+Tests SDK against a running API instance to verify the contract:
+
+```bash
+# Requires core API at localhost:8080
+CHANS_TEST_AGENT_TOKEN=agt_xxx pnpm test:integration
+```
+
 ## Contributing
 
 We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.

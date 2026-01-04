@@ -1,6 +1,6 @@
 {
   "name": "@ai-chans/sdk-react",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -25,13 +25,19 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "lint": "echo 'lint not configured yet'"
   },
   "dependencies": {
     "@ai-chans/sdk-js": "workspace:*"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
     "@types/react": "^19",
+    "happy-dom": "^20.0.11",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {

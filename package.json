@@ -10,11 +10,16 @@
   "scripts": {
     "build": "pnpm -r build",
     "dev": "pnpm -r --parallel dev",
+    "test": "pnpm -r test",
+    "test:coverage": "pnpm -r test:coverage",
+    "test:integration": "pnpm --filter @ai-chans/sdk-js test:integration",
     "lint": "pnpm -r lint",
-    "clean": "rm -rf node_modules sdk-js/node_modules sdk-react/node_modules sdk-js/dist sdk-react/dist"
+    "clean": "rm -rf node_modules sdk-js/node_modules sdk-react/node_modules sdk-js/dist sdk-react/dist coverage"
   },
   "devDependencies": {
-    "typescript": "^5.9.3"
+    "@vitest/coverage-v8": "^4.0.16",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
   },
   "packageManager": "pnpm@10.0.0",
   "engines": {

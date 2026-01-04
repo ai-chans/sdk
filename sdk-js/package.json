@@ -1,6 +1,6 @@
 {
   "name": "@ai-chans/sdk-js",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -30,6 +30,10 @@
     "build": "tsc && pnpm build:browser",
     "build:browser": "esbuild src/index.ts --bundle --format=esm --outfile=dist/chans-client.browser.js",
     "dev": "tsc --watch",
+    "test": "vitest run --exclude '**/integration.test.ts'",
+    "test:watch": "vitest --exclude '**/integration.test.ts'",
+    "test:coverage": "vitest run --coverage --exclude '**/integration.test.ts'",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
     "lint": "echo 'lint not configured yet'"
   },
   "dependencies": {
