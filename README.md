@@ -4,6 +4,7 @@
 
 **Add real-time voice AI to your applications**
 
+[![npm version](https://img.shields.io/npm/v/chans-sdk-js.svg)](https://www.npmjs.com/package/chans-sdk-js)
 [![GitHub Actions](https://github.com/chozzz/chans-sdk/actions/workflows/publish.yml/badge.svg)](https://github.com/chozzz/chans-sdk/actions)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
@@ -21,25 +22,17 @@ The Chans SDK enables real-time voice conversations with AI agents in your web a
 
 | Package | Description |
 |---------|-------------|
-| [`@chozzz/chans-sdk-js`](./client) | Core JavaScript/TypeScript client |
-| [`@chozzz/chans-sdk-react`](./react) | React components and hooks |
+| [`chans-sdk-js`](./client) | Core JavaScript/TypeScript client |
+| [`chans-sdk-react`](./react) | React components and hooks |
 
 ## Installation
 
-These packages are hosted on [GitHub Packages](https://github.com/chozzz?tab=packages). Configure npm to use the GitHub registry for the `@chozzz` scope:
-
-```bash
-echo "@chozzz:registry=https://npm.pkg.github.com" >> .npmrc
-```
-
-Then install:
-
 ```bash
 # JavaScript/TypeScript
-npm install @chozzz/chans-sdk-js
+npm install chans-sdk-js
 
 # React
-npm install @chozzz/chans-sdk-react
+npm install chans-sdk-react
 ```
 
 ## Quick Start
@@ -47,7 +40,7 @@ npm install @chozzz/chans-sdk-react
 ### JavaScript/TypeScript
 
 ```typescript
-import { ChansClient } from "@chozzz/chans-sdk-js"
+import { ChansClient } from "chans-sdk-js"
 
 const client = new ChansClient({
   agentToken: "agt_your_token"  // From chans.ai dashboard
@@ -62,7 +55,7 @@ await client.connect()
 ### React
 
 ```tsx
-import { ChansVoice } from "@chozzz/chans-sdk-react"
+import { ChansVoice } from "chans-sdk-react"
 
 function App() {
   return (

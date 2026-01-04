@@ -30,10 +30,10 @@ pnpm dev
 
 ```
 chans-sdk/
-├── client/           # @chozzz/chans-sdk-js
+├── client/           # chans-sdk-js
 │   ├── src/
 │   └── package.json
-├── react/            # @chozzz/chans-sdk-react
+├── react/            # chans-sdk-react
 │   ├── src/
 │   └── package.json
 ├── .github/
@@ -101,7 +101,7 @@ Version bumps are handled by maintainers.
 Releases are automated via GitHub Actions. When a version bump is pushed to `main`, the workflow:
 
 1. Creates a GitHub Release
-2. Publishes to GitHub Packages
+2. Publishes to npm using Trusted Publishing (OIDC)
 
 ## Questions?
 

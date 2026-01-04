@@ -27,7 +27,7 @@ importers:
 
   react:
     dependencies:
-      '@chozzz/chans-sdk-js':
+      chans-sdk-js:
         specifier: workspace:^
         version: link:../client
       react:

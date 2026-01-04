@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: write
+      id-token: write  # Required for npm Trusted Publishing (OIDC)
 
     steps:
       - name: Checkout
@@ -28,9 +28,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          registry-url: "https://npm.pkg.github.com"
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
+
+      - name: Verify npm version (requires 11.5.1+ for Trusted Publishing)
+        run: |
+          npm --version
+          node --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -61,19 +66,15 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Publish @chozzz/chans-sdk-js
+      - name: Publish chans-sdk-js to npm
         if: steps.tag_check.outputs.exists == 'false'
         working-directory: client
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish --provenance --access public
 
-      - name: Publish @chozzz/chans-sdk-react
+      - name: Publish chans-sdk-react to npm
         if: steps.tag_check.outputs.exists == 'false'
         working-directory: react
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish --provenance --access public
 
       - name: Skip - Version already released
         if: steps.tag_check.outputs.exists == 'true'

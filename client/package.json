@@ -1,6 +1,6 @@
 {
-  "name": "@chozzz/chans-sdk-js",
-  "version": "0.1.0",
+  "name": "chans-sdk-js",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/chozzz/chans-sdk.git",
