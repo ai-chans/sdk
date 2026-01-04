@@ -4,8 +4,8 @@
 
 **Add real-time voice AI to your applications**
 
-[![npm version](https://img.shields.io/npm/v/chans-sdk-js.svg)](https://www.npmjs.com/package/chans-sdk-js)
-[![GitHub Actions](https://github.com/chozzz/chans-sdk/actions/workflows/publish.yml/badge.svg)](https://github.com/chozzz/chans-sdk/actions)
+[![npm version](https://img.shields.io/npm/v/@ai-chans/sdk-js.svg)](https://www.npmjs.com/package/@ai-chans/sdk-js)
+[![GitHub Actions](https://github.com/ai-chans/sdk/actions/workflows/publish.yml/badge.svg)](https://github.com/ai-chans/sdk/actions)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 [Documentation](https://docs.chans.ai) · [Dashboard](https://chans.ai) · [Examples](#examples)
@@ -22,17 +22,17 @@ The Chans SDK enables real-time voice conversations with AI agents in your web a
 
 | Package | Description |
 |---------|-------------|
-| [`chans-sdk-js`](./client) | Core JavaScript/TypeScript client |
-| [`chans-sdk-react`](./react) | React components and hooks |
+| [`@ai-chans/sdk-js`](./sdk-js) | Core JavaScript/TypeScript client |
+| [`@ai-chans/sdk-react`](./sdk-react) | React components and hooks |
 
 ## Installation
 
 ```bash
 # JavaScript/TypeScript
-npm install chans-sdk-js
+npm install @ai-chans/sdk-js
 
 # React
-npm install chans-sdk-react
+npm install @ai-chans/sdk-react
 ```
 
 ## Quick Start
@@ -40,7 +40,7 @@ npm install chans-sdk-react
 ### JavaScript/TypeScript
 
 ```typescript
-import { ChansClient } from "chans-sdk-js"
+import { ChansClient } from "@ai-chans/sdk-js"
 
 const client = new ChansClient({
   agentToken: "agt_your_token"  // From chans.ai dashboard
@@ -55,7 +55,7 @@ await client.connect()
 ### React
 
 ```tsx
-import { ChansVoice } from "chans-sdk-react"
+import { ChansVoice } from "@ai-chans/sdk-react"
 
 function App() {
   return (
@@ -113,7 +113,7 @@ Or build your own UI:
 
 ## Examples
 
-See the [client README](./client/README.md) and [react README](./react/README.md) for detailed API documentation and more examples.
+See the [sdk-js README](./sdk-js/README.md) and [sdk-react README](./sdk-react/README.md) for detailed API documentation and more examples.
 
 ## Requirements
 

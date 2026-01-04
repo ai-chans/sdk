@@ -9,10 +9,10 @@ import {
   createContext,
   useContext,
 } from "react"
-import { ChansClient, ChansState } from "@chozzz/chans-sdk-js"
+import { ChansClient, ChansState } from "@ai-chans/sdk-js"
 
 // Re-export client types
-export type { ChansState } from "@chozzz/chans-sdk-js"
+export type { ChansState } from "@ai-chans/sdk-js"
 
 export interface ChansVoiceProps {
   /**

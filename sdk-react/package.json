@@ -1,10 +1,11 @@
 {
-  "name": "@chozzz/chans-sdk-react",
-  "version": "0.1.4",
+  "name": "@ai-chans/sdk-react",
+  "version": "0.2.1",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/chozzz/chans-sdk.git",
-    "directory": "react"
+    "url": "https://github.com/ai-chans/sdk.git",
+    "directory": "sdk-react"
   },
   "description": "React component for chans.ai voice AI",
   "type": "module",
@@ -27,7 +28,7 @@
     "lint": "echo 'lint not configured yet'"
   },
   "dependencies": {
-    "@chozzz/chans-sdk-js": "^0.1.1"
+    "@ai-chans/sdk-js": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^19",

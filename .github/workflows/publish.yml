@@ -44,9 +44,9 @@ jobs:
       - name: Build packages
         run: pnpm build
 
-      - name: Get version from client package
+      - name: Get version from sdk-js package
         id: version
-        run: echo "version=$(node -p "require('./client/package.json').version")" >> $GITHUB_OUTPUT
+        run: echo "version=$(node -p "require('./sdk-js/package.json').version")" >> $GITHUB_OUTPUT
 
       - name: Check if tag exists
         id: tag_check
@@ -67,14 +67,14 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Publish chans-sdk-js to npm
+      - name: Publish @ai-chans/sdk-js to npm
         if: steps.tag_check.outputs.exists == 'false'
-        working-directory: client
+        working-directory: sdk-js
         run: npm publish --provenance --access public
 
-      - name: Publish chans-sdk-react to npm
+      - name: Publish @ai-chans/sdk-react to npm
         if: steps.tag_check.outputs.exists == 'false'
-        working-directory: react
+        working-directory: sdk-react
         run: npm publish --provenance --access public
 
       - name: Skip - Version already released

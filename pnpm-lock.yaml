@@ -12,7 +12,7 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  client:
+  sdk-js:
     dependencies:
       livekit-client:
         specifier: ^2.16.1
@@ -25,11 +25,11 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  react:
+  sdk-react:
     dependencies:
-      '@chozzz/chans-sdk-js':
-        specifier: ^0.1.1
-        version: 0.1.1(@types/dom-mediacapture-record@1.0.22)
+      '@ai-chans/sdk-js':
+        specifier: workspace:*
+        version: link:../sdk-js
       react:
         specifier: ^18.0.0 || ^19.0.0
         version: 19.2.3
@@ -45,9 +45,6 @@ packages:
 
   '@bufbuild/protobuf@1.10.1':
     resolution: {integrity: sha512-wJ8ReQbHxsAfXhrf9ixl0aYbZorRuOWpBNzm8pL8ftmSxQx/wnJD5Eg861NwJU/czy2VXFIebCeZnZrI9rktIQ==}
-
-  '@chozzz/chans-sdk-js@0.1.1':
-    resolution: {integrity: sha512-cX9r5h3lui8eWAcrYqyz+diNud9V3b829e3OL1lWJk+PlC+DILEhWqV8nLmXHnauu/zPE4XafFJYv8/Wvd4UIA==}
 
   '@esbuild/aix-ppc64@0.27.2':
     resolution: {integrity: sha512-GZMB+a0mOMZs4MpDbj8RJp4cw+w1WV5NYD6xzgvzUJ5Ek2jerwfO2eADyI6ExDSUED+1X8aMbegahsJi+8mgpw==}
@@ -276,12 +273,6 @@ packages:
 snapshots:
 
   '@bufbuild/protobuf@1.10.1': {}
-
-  '@chozzz/chans-sdk-js@0.1.1(@types/dom-mediacapture-record@1.0.22)':
-    dependencies:
-      livekit-client: 2.16.1(@types/dom-mediacapture-record@1.0.22)
-    transitivePeerDependencies:
-      - '@types/dom-mediacapture-record'
 
   '@esbuild/aix-ppc64@0.27.2':
     optional: true
