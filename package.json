@@ -17,6 +17,7 @@
     "clean": "rm -rf node_modules sdk-js/node_modules sdk-react/node_modules sdk-js/dist sdk-react/dist coverage"
   },
   "devDependencies": {
+    "@types/node": "^25.0.3",
     "@vitest/coverage-v8": "^4.0.16",
     "typescript": "^5.9.3",
     "vitest": "^4.0.16"
