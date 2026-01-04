@@ -1,12 +1,17 @@
 {
-  "name": "chans-sdk-js",
+  "name": "chans-sdk",
   "private": true,
   "description": "Official JavaScript SDK for chans.ai voice AI",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ai-chans/sdk.git"
+  },
   "scripts": {
     "build": "pnpm -r build",
     "dev": "pnpm -r --parallel dev",
     "lint": "pnpm -r lint",
-    "clean": "rm -rf node_modules client/node_modules react/node_modules client/dist react/dist"
+    "clean": "rm -rf node_modules sdk-js/node_modules sdk-react/node_modules sdk-js/dist sdk-react/dist"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

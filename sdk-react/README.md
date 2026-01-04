@@ -1,11 +1,11 @@
-# chans-sdk-react
+# @ai-chans/sdk-react
 
 React components and hooks for [chans.ai](https://chans.ai) voice AI.
 
 ## Installation
 
 ```bash
-npm install chans-sdk-react
+npm install @ai-chans/sdk-react
 ```
 
 Requires React 18 or 19.
@@ -17,7 +17,7 @@ Requires React 18 or 19.
 Drop in a ready-to-use voice button:
 
 ```tsx
-import { ChansVoice } from "chans-sdk-react"
+import { ChansVoice } from "@ai-chans/sdk-react"
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
 Build your own interface with render props:
 
 ```tsx
-import { ChansVoice } from "chans-sdk-react"
+import { ChansVoice } from "@ai-chans/sdk-react"
 
 function App() {
   return (
@@ -64,7 +64,7 @@ function App() {
 Access voice state from nested components:
 
 ```tsx
-import { ChansVoice, useChans } from "chans-sdk-react"
+import { ChansVoice, useChans } from "@ai-chans/sdk-react"
 
 function VoiceButton() {
   const { state, connect, disconnect, isConnected } = useChans()
@@ -145,7 +145,7 @@ type ChansState =
 
 ```tsx
 import { useState } from "react"
-import { ChansVoice } from "chans-sdk-react"
+import { ChansVoice } from "@ai-chans/sdk-react"
 
 function Chat() {
   const [messages, setMessages] = useState<Array<{role: string, text: string}>>([])
@@ -175,7 +175,7 @@ function Chat() {
 ### Manual Connect/Disconnect
 
 ```tsx
-import { ChansVoice } from "chans-sdk-react"
+import { ChansVoice } from "@ai-chans/sdk-react"
 
 function App() {
   return (

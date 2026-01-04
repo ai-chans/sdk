@@ -1,5 +1,5 @@
 /**
- * Testing utilities for @chans/client
+ * Testing utilities for @ai-chans/sdk-js
  *
  * Provides mock implementations for testing applications that use ChansClient.
  */

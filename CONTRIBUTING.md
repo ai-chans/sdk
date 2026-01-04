@@ -13,8 +13,8 @@ Thanks for your interest in contributing! This guide will help you get started.
 
 ```bash
 # Clone the repository
-git clone https://github.com/chozzz/chans-sdk.git
-cd chans-sdk
+git clone https://github.com/ai-chans/sdk.git
+cd sdk
 
 # Install dependencies
 pnpm install
@@ -29,11 +29,11 @@ pnpm dev
 ## Project Structure
 
 ```
-chans-sdk/
-├── client/           # chans-sdk-js
+sdk/
+├── sdk-js/           # @ai-chans/sdk-js
 │   ├── src/
 │   └── package.json
-├── react/            # chans-sdk-react
+├── sdk-react/        # @ai-chans/sdk-react
 │   ├── src/
 │   └── package.json
 ├── .github/

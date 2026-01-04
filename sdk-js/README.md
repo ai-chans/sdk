@@ -1,17 +1,17 @@
-# chans-sdk-js
+# @ai-chans/sdk-js
 
 Core JavaScript/TypeScript client for [chans.ai](https://chans.ai) voice AI.
 
 ## Installation
 
 ```bash
-npm install chans-sdk-js
+npm install @ai-chans/sdk-js
 ```
 
 ## Quick Start
 
 ```typescript
-import { ChansClient } from "chans-sdk-js"
+import { ChansClient } from "@ai-chans/sdk-js"
 
 const client = new ChansClient({
   agentToken: "agt_your_token"  // From chans.ai dashboard
@@ -130,7 +130,7 @@ client.off("transcript", myHandler)
 In Node.js, there's no DOM for audio playback. Enable manual audio handling:
 
 ```typescript
-import { ChansClient } from "chans-sdk-js"
+import { ChansClient } from "@ai-chans/sdk-js"
 
 const client = new ChansClient({
   agentToken: "agt_xxx",
@@ -155,8 +155,8 @@ The SDK provides utilities for mocking in tests.
 ### Basic Test Setup
 
 ```typescript
-import { ChansClient } from "chans-sdk-js"
-import { createMockClientOptions } from "chans-sdk-js/testing"
+import { ChansClient } from "@ai-chans/sdk-js"
+import { createMockClientOptions } from "@ai-chans/sdk-js/testing"
 
 test("client connects", async () => {
   const { getRoom, ...options } = createMockClientOptions()
