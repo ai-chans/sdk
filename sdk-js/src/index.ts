@@ -9,11 +9,12 @@ import {
 } from "livekit-client"
 
 export type ChansState =
-  | "idle"
-  | "connecting"
-  | "connected"
-  | "listening"
-  | "speaking"
+  | "idle"        // Not connected
+  | "connecting"  // API call + room connecting
+  | "waiting"     // Room connected, waiting for agent to join
+  | "ready"       // Agent joined, user can speak
+  | "processing"  // User spoke, waiting for agent response
+  | "speaking"    // Agent audio playing
   | "error"
 
 /**
@@ -87,6 +88,20 @@ export type ChansEventType =
   | "disconnected"
   | "audioTrack"
   | "audioTrackEnded"
+  | "agentConnected"
+  | "agentDisconnected"
+  | "userTurnComplete"
+  | "sessionCreated"
+
+export interface AgentInfo {
+  identity: string
+  metadata?: string
+}
+
+export interface SessionInfo {
+  sessionId: string
+  agentId?: string
+}
 
 export interface ChansEvents {
   stateChange: (state: ChansState) => void
@@ -99,6 +114,14 @@ export interface ChansEvents {
   audioTrack: (track: RemoteTrack) => void
   /** Emitted when agent audio track ends */
   audioTrackEnded: () => void
+  /** Emitted when agent participant joins the room */
+  agentConnected: (agent: AgentInfo) => void
+  /** Emitted when agent participant leaves the room */
+  agentDisconnected: () => void
+  /** Emitted when user finishes speaking (final transcript) */
+  userTurnComplete: (transcript: string) => void
+  /** Emitted when session is created with API */
+  sessionCreated: (session: SessionInfo) => void
 }
 
 interface SessionResponse {
@@ -227,6 +250,11 @@ export class ChansClient {
 
       const session: SessionResponse = await res.json()
 
+      // Emit session created event
+      this.emit("sessionCreated", {
+        sessionId: session.session_id,
+      })
+
       // Create and connect room
       const room = this.createRoom({
         adaptiveStream: true,
@@ -237,16 +265,34 @@ export class ChansClient {
 
       // Set up event handlers
       room.on(RoomEvent.Connected, () => {
-        this.setState("connected")
         this.emit("connected")
-        // Start in listening state
-        this.setState("listening")
+        // Wait for agent to join before user can speak
+        this.setState("waiting")
       })
 
       room.on(RoomEvent.Disconnected, () => {
         this.setState("idle")
         this.emit("disconnected")
         this.cleanup()
+      })
+
+      // Agent participant joined - now ready for conversation
+      room.on(RoomEvent.ParticipantConnected, (participant: RemoteParticipant) => {
+        if (participant.identity.includes("agent")) {
+          this.setState("ready")
+          this.emit("agentConnected", {
+            identity: participant.identity,
+            metadata: participant.metadata,
+          })
+        }
+      })
+
+      // Agent participant left
+      room.on(RoomEvent.ParticipantDisconnected, (participant: RemoteParticipant) => {
+        if (participant.identity.includes("agent")) {
+          this.emit("agentDisconnected")
+          this.setState("waiting")
+        }
       })
 
       room.on(
@@ -280,7 +326,8 @@ export class ChansClient {
             this.audioElement = null
           }
 
-          this.setState("listening")
+          // Back to ready for next user input
+          this.setState("ready")
         }
       })
 
@@ -288,11 +335,25 @@ export class ChansClient {
         RoomEvent.TranscriptionReceived,
         (segments: TranscriptionSegment[], participant: { identity: string } | undefined) => {
           const text = segments.map((s) => s.text).join(" ")
+          const isFinal = segments.some((s) => s.final)
 
           if (participant?.identity.includes("agent")) {
+            // Agent is responding - transition to speaking if we were processing
+            if (this.state === "processing" || this.state === "ready") {
+              this.setState("speaking")
+            }
             this.emit("response", text)
+            // Agent finished speaking - transition back to ready
+            if (isFinal && text.trim()) {
+              this.setState("ready")
+            }
           } else {
             this.emit("transcript", text)
+            // User finished speaking - transition to processing
+            if (isFinal && text.trim()) {
+              this.setState("processing")
+              this.emit("userTurnComplete", text)
+            }
           }
         }
       )
