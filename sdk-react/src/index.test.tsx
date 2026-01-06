@@ -416,11 +416,11 @@ describe("ChansVoice", () => {
       expect(screen.getByText("Connecting...")).toBeInTheDocument()
     })
 
-    it("should show 'Listening...' in listening state", () => {
+    it("should show 'Listening...' in ready state", () => {
       render(<ChansVoice agentToken="agt_test" autoConnect={false} />)
 
       act(() => {
-        mockClient._emit("stateChange", "listening")
+        mockClient._emit("stateChange", "ready")
       })
 
       expect(screen.getByText("Listening...")).toBeInTheDocument()

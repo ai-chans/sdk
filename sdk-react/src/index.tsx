@@ -12,7 +12,7 @@ import {
 import { ChansClient, ChansState } from "@ai-chans/sdk-js"
 
 // Re-export client types
-export type { ChansState } from "@ai-chans/sdk-js"
+export type { ChansState, AgentInfo, SessionInfo } from "@ai-chans/sdk-js"
 
 export interface ChansVoiceProps {
   /**
@@ -64,6 +64,26 @@ export interface ChansVoiceProps {
    * Called when disconnected
    */
   onDisconnected?: () => void
+
+  /**
+   * Called when agent joins the room
+   */
+  onAgentConnected?: (agent: import("@ai-chans/sdk-js").AgentInfo) => void
+
+  /**
+   * Called when agent leaves the room
+   */
+  onAgentDisconnected?: () => void
+
+  /**
+   * Called when user finishes speaking (final transcript)
+   */
+  onUserTurnComplete?: (transcript: string) => void
+
+  /**
+   * Called when session is created
+   */
+  onSessionCreated?: (session: import("@ai-chans/sdk-js").SessionInfo) => void
 
   /**
    * Custom render function for the voice UI
@@ -135,6 +155,10 @@ export function ChansVoice({
   onError,
   onConnected,
   onDisconnected,
+  onAgentConnected,
+  onAgentDisconnected,
+  onUserTurnComplete,
+  onSessionCreated,
   children,
   className,
 }: ChansVoiceProps) {
@@ -176,6 +200,22 @@ export function ChansVoice({
       onDisconnected?.()
     })
 
+    const unsubAgentConnected = client.on("agentConnected", (agent) => {
+      onAgentConnected?.(agent)
+    })
+
+    const unsubAgentDisconnected = client.on("agentDisconnected", () => {
+      onAgentDisconnected?.()
+    })
+
+    const unsubUserTurnComplete = client.on("userTurnComplete", (transcript) => {
+      onUserTurnComplete?.(transcript)
+    })
+
+    const unsubSessionCreated = client.on("sessionCreated", (session) => {
+      onSessionCreated?.(session)
+    })
+
     return () => {
       unsubState()
       unsubTranscript()
@@ -183,9 +223,13 @@ export function ChansVoice({
       unsubError()
       unsubConnected()
       unsubDisconnected()
+      unsubAgentConnected()
+      unsubAgentDisconnected()
+      unsubUserTurnComplete()
+      unsubSessionCreated()
       client.disconnect()
     }
-  }, [agentToken, apiUrl, onStateChange, onTranscript, onResponse, onError, onConnected, onDisconnected])
+  }, [agentToken, apiUrl, onStateChange, onTranscript, onResponse, onError, onConnected, onDisconnected, onAgentConnected, onAgentDisconnected, onUserTurnComplete, onSessionCreated])
 
   // Auto-connect
   useEffect(() => {
@@ -322,8 +366,9 @@ function DefaultVoiceUI({
       >
         {state === "idle" && "Click to start"}
         {state === "connecting" && "Connecting..."}
-        {state === "connected" && "Connected"}
-        {state === "listening" && "Listening..."}
+        {state === "waiting" && "Waiting for agent..."}
+        {state === "ready" && "Listening..."}
+        {state === "processing" && "Processing..."}
         {state === "speaking" && "Agent speaking"}
         {state === "error" && "Error"}
       </div>

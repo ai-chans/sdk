@@ -100,8 +100,7 @@ describe("ChansClient", () => {
       await new Promise((r) => setTimeout(r, 10))
 
       expect(states).toContain("connecting")
-      expect(states).toContain("connected")
-      expect(states).toContain("listening")
+      expect(states).toContain("waiting")
     })
 
     it("should pass userId in session request", async () => {
@@ -278,7 +277,7 @@ describe("ChansClient", () => {
       room.simulateAgentStoppedSpeaking()
 
       expect(ended).toHaveBeenCalled()
-      expect(client.getState()).toBe("listening")
+      expect(client.getState()).toBe("ready")
     })
 
     it("should unsubscribe with off()", () => {
@@ -304,7 +303,8 @@ describe("ChansClient", () => {
       await client.connect()
       await new Promise((r) => setTimeout(r, 10))
 
-      expect(states).toEqual(["connecting", "connected", "listening"])
+      // New state flow: connecting -> waiting (for agent to join)
+      expect(states).toEqual(["connecting", "waiting"])
     })
 
     it("should transition to speaking when agent audio arrives", async () => {
@@ -321,7 +321,7 @@ describe("ChansClient", () => {
       expect(states).toContain("speaking")
     })
 
-    it("should transition back to listening when agent stops", async () => {
+    it("should transition back to ready when agent stops", async () => {
       const { getRoom, ...options } = createMockClientOptions()
       const client = new ChansClient(options)
 
@@ -332,7 +332,7 @@ describe("ChansClient", () => {
       room.simulateAgentSpeaking()
       room.simulateAgentStoppedSpeaking()
 
-      expect(client.getState()).toBe("listening")
+      expect(client.getState()).toBe("ready")
     })
   })
 })
