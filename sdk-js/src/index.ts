@@ -234,7 +234,7 @@ export class ChansClient {
 
     try {
       // Get session from API
-      const res = await this.fetchFn(`${this.apiUrl}/v1/session`, {
+      const res = await this.fetchFn(`${this.apiUrl}/api/v1/session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -28,7 +28,7 @@ describe("ChansClient", () => {
       client.connect().catch(() => {})
 
       expect(mockFetch).toHaveBeenCalledWith(
-        "https://api.chans.ai/v1/session",
+        "https://api.chans.ai/api/v1/session",
         expect.any(Object)
       )
     })
@@ -46,7 +46,7 @@ describe("ChansClient", () => {
       client.connect().catch(() => {})
 
       expect(mockFetch).toHaveBeenCalledWith(
-        "https://custom.api.com/v1/session",
+        "https://custom.api.com/api/v1/session",
         expect.any(Object)
       )
     })
