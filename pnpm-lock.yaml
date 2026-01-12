@@ -37,8 +37,8 @@ importers:
   sdk-react:
     dependencies:
       '@ai-chans/sdk-js':
-        specifier: workspace:*
-        version: link:../sdk-js
+        specifier: ^0.3.2
+        version: 0.3.2(@types/dom-mediacapture-record@1.0.22)
       react:
         specifier: ^18.0.0 || ^19.0.0
         version: 19.2.3
@@ -63,6 +63,9 @@ packages:
 
   '@adobe/css-tools@4.4.4':
     resolution: {integrity: sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==}
+
+  '@ai-chans/sdk-js@0.3.2':
+    resolution: {integrity: sha512-MA13eRkbvlznHCPmmwacM+oxPvQHbyBrB2TWq0yh7pbyIqeK9qAo2RznMiFmZXAWhUjl5I+7UqhMcJHiereYvw==}
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -830,6 +833,12 @@ packages:
 snapshots:
 
   '@adobe/css-tools@4.4.4': {}
+
+  '@ai-chans/sdk-js@0.3.2(@types/dom-mediacapture-record@1.0.22)':
+    dependencies:
+      livekit-client: 2.16.1(@types/dom-mediacapture-record@1.0.22)
+    transitivePeerDependencies:
+      - '@types/dom-mediacapture-record'
 
   '@babel/code-frame@7.27.1':
     dependencies:

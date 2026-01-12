@@ -9,10 +9,183 @@ import {
   createContext,
   useContext,
 } from "react"
-import { ChansClient, ChansState } from "@ai-chans/sdk-js"
+import { ChansClient, ChansState, type AgentInfo } from "@ai-chans/sdk-js"
 
 // Re-export client types
 export type { ChansState, AgentInfo, SessionInfo } from "@ai-chans/sdk-js"
+
+// ============================================================================
+// useVoiceAgent - Standalone hook for voice agent connection
+// ============================================================================
+
+export interface UseVoiceAgentOptions {
+  /**
+   * Agent token from chans.ai dashboard
+   */
+  agentToken: string
+
+  /**
+   * API URL (defaults to https://api.chans.ai)
+   */
+  apiUrl?: string
+
+  /**
+   * Optional end-user ID for conversation segmentation
+   */
+  userId?: string
+}
+
+export interface UseVoiceAgentCallbacks {
+  onStateChange?: (state: ChansState) => void
+  onConnected?: () => void
+  onAgentConnected?: (agent: AgentInfo) => void
+  onAgentDisconnected?: () => void
+  onTranscript?: (text: string) => void
+  onUserTurnComplete?: (text: string) => void
+  onResponse?: (text: string) => void
+  onDisconnected?: () => void
+  onError?: (error: Error) => void
+}
+
+export interface UseVoiceAgentReturn {
+  state: ChansState
+  isConnected: boolean
+  error: string | null
+  connect: () => Promise<void>
+  disconnect: () => Promise<void>
+}
+
+/**
+ * Standalone hook for chans.ai voice agent connection.
+ * Does not require a wrapper component.
+ *
+ * @example
+ * ```tsx
+ * function VoiceButton() {
+ *   const { state, connect, disconnect } = useVoiceAgent({
+ *     agentToken: "agt_xxx",
+ *   }, {
+ *     onTranscript: (text) => console.log("User:", text),
+ *     onResponse: (text) => console.log("Agent:", text),
+ *   })
+ *
+ *   return (
+ *     <button onClick={state === "idle" ? connect : disconnect}>
+ *       {state === "idle" ? "Start" : "Stop"}
+ *     </button>
+ *   )
+ * }
+ * ```
+ */
+export function useVoiceAgent(
+  options: UseVoiceAgentOptions,
+  callbacks?: UseVoiceAgentCallbacks
+): UseVoiceAgentReturn {
+  const [state, setState] = useState<ChansState>("idle")
+  const [isConnected, setIsConnected] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const clientRef = useRef<ChansClient | null>(null)
+
+  // Store callbacks in refs to avoid dependency issues
+  const callbacksRef = useRef(callbacks)
+  callbacksRef.current = callbacks
+
+  const disconnect = useCallback(async () => {
+    if (clientRef.current) {
+      await clientRef.current.disconnect()
+      clientRef.current = null
+    }
+    setIsConnected(false)
+    setState("idle")
+  }, [])
+
+  const connect = useCallback(async () => {
+    try {
+      setError(null)
+      setState("connecting")
+
+      const client = new ChansClient({
+        agentToken: options.agentToken,
+        apiUrl: options.apiUrl,
+      })
+      clientRef.current = client
+
+      // State changes
+      client.on("stateChange", (newState) => {
+        setState(newState)
+        callbacksRef.current?.onStateChange?.(newState)
+      })
+
+      // Connection events
+      client.on("connected", () => {
+        setIsConnected(true)
+        callbacksRef.current?.onConnected?.()
+      })
+
+      client.on("agentConnected", (agent) => {
+        callbacksRef.current?.onAgentConnected?.(agent)
+      })
+
+      client.on("agentDisconnected", () => {
+        callbacksRef.current?.onAgentDisconnected?.()
+      })
+
+      // Transcript events
+      client.on("transcript", (text) => {
+        callbacksRef.current?.onTranscript?.(text)
+      })
+
+      client.on("userTurnComplete", (text) => {
+        callbacksRef.current?.onUserTurnComplete?.(text)
+      })
+
+      client.on("response", (text) => {
+        callbacksRef.current?.onResponse?.(text)
+      })
+
+      // Disconnect/error events
+      client.on("disconnected", () => {
+        setIsConnected(false)
+        callbacksRef.current?.onDisconnected?.()
+      })
+
+      client.on("error", (err) => {
+        setError(err.message)
+        setIsConnected(false)
+        setState("idle")
+        callbacksRef.current?.onError?.(err)
+      })
+
+      await client.connect({ userId: options.userId })
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to connect"
+      setError(message)
+      setState("idle")
+      callbacksRef.current?.onError?.(err instanceof Error ? err : new Error(message))
+    }
+  }, [options.agentToken, options.apiUrl, options.userId])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (clientRef.current) {
+        clientRef.current.disconnect()
+      }
+    }
+  }, [])
+
+  return {
+    state,
+    isConnected,
+    error,
+    connect,
+    disconnect,
+  }
+}
+
+// ============================================================================
+// ChansVoice - Component wrapper (legacy API)
+// ============================================================================
 
 export interface ChansVoiceProps {
   /**

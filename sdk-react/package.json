@@ -1,6 +1,6 @@
 {
   "name": "@ai-chans/sdk-react",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
     "lint": "echo 'lint not configured yet'"
   },
   "dependencies": {
-    "@ai-chans/sdk-js": "workspace:*"
+    "@ai-chans/sdk-js": "^0.3.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
